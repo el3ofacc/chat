@@ -1,4 +1,3 @@
-
 // ignore_for_file: prefer_const_constructors
 
 import 'package:chat/homepage.dart';
@@ -35,20 +34,28 @@ class _SigninState extends State<Signin> {
                 style: TextStyle(fontSize: 40, color: Colors.red),
               ),
               const SizedBox(height: 20),
-              textfrom( controllervalue: emailcontrol,
-               hint: 'example@gmail.com',
+              textfrom(
+                controllervalue: emailcontrol,
+                hint: 'example@gmail.com',
                 lable: 'email',
-                iconbutton: null, obsecuretet: false,),
+                iconbutton: null,
+                obsecuretet: false,
+              ),
               const SizedBox(height: 20),
-              textfrom(controllervalue: passwordcontrol, hint: '********', lable: 'password', iconbutton: IconButton(
-                onPressed: () {
-                  provider.changesecure();
-                },
-                icon: Icon(
-                  provider.secure ? Icons.visibility_off : Icons.visibility,
+              textfrom(
+                controllervalue: passwordcontrol,
+                hint: '********',
+                lable: 'password',
+                iconbutton: IconButton(
+                  onPressed: () {
+                    provider.changesecure();
+                  },
+                  icon: Icon(
+                    provider.secure ? Icons.visibility_off : Icons.visibility,
+                  ),
                 ),
-              ), obsecuretet: provider.secure,),
-             
+                obsecuretet: provider.secure,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -57,19 +64,16 @@ class _SigninState extends State<Signin> {
                     child: InkWell(
                       onTap: () {
                         try {
-                          if(formstate.currentState!.validate()){FirebaseAuth.instance
-                              .sendPasswordResetEmail(email: emailcontrol.text);
-                          provider.scaffoldmessanger(
-                              context, 'Password reset email sent');
-                              }
-                          
+                          if (formstate.currentState!.validate()) {
+                            FirebaseAuth.instance.sendPasswordResetEmail(
+                                email: emailcontrol.text);
+                            provider.scaffoldmessanger(
+                                context, 'Password reset email sent');
+                          }
                         } catch (e) {
-                          provider.alert(context, e, '', 'ok', () {
-                            return;
-                          }, () {
-                            return;
+                          provider.alert(context, e, '', 'ok', () {}, () {
+                            Navigator.of(context).pop();
                           });
-                         
                         }
                       },
                       child: const Text(
@@ -94,7 +98,7 @@ class _SigninState extends State<Signin> {
                         'ok', () {
                       return;
                     }, () {
-                      return;
+                      Navigator.of(context).pop();
                     });
                   }
                 },
@@ -106,23 +110,27 @@ class _SigninState extends State<Signin> {
               ),
               const SizedBox(height: 30),
               InkWell(
-                onTap: () {
-                  provider.signinwithgoogle(context, () => Homepage(), '', 'ok',
-                      () {
-                    return;
-                  }, () {
-                    return;
-                  });
-                },
-                child: Card(color: Colors.blue,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("or signin with google",
-                    style:  TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),),
-                  ),
-                )
-               
-              ),
+                  onTap: () {
+                    provider.signinwithgoogle(
+                        context, () => Homepage(), '', 'ok', () {
+                      return;
+                    }, () {
+                      return;
+                    });
+                  },
+                  child: Card(
+                    color: Colors.blue,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "or signin with google",
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  )),
             ],
           ),
         ),
@@ -130,4 +138,3 @@ class _SigninState extends State<Signin> {
     });
   }
 }
- 

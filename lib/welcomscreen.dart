@@ -3,8 +3,10 @@
 import 'package:chat/balancescreen.dart';
 import 'package:chat/homepage.dart';
 import 'package:chat/innerpage.dart';
+import 'package:chat/market.dart';
 import 'package:chat/signup.dart';
 import 'package:chat/taskscreen.dart';
+import 'package:chat/widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -36,7 +38,7 @@ class _WelcomescreenState extends State<Welcomescreen>
         if (status == AnimationStatus.completed) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return //Balancescreen(); //Taskscreen();
+            return //Market(); //Taskscreen();
             (user != null && user.email != null)
                 ? const Homepage()
                 : const Signup();

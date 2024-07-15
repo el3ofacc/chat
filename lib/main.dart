@@ -3,8 +3,9 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
+ 
 import 'package:chat/signin.dart';
 import 'package:chat/signup.dart';
 import 'package:chat/taskscreen.dart';
@@ -16,6 +17,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
@@ -24,29 +26,26 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(  MyApp());
+  runApp(   MyApp());
 }
 
 class MyApp extends StatelessWidget {
-    MyApp({super.key});
-final GlobalKey<NavigatorState> navigatorkey = GlobalKey<NavigatorState>();
+  MyApp({super.key});
+  final GlobalKey<NavigatorState> navigatorkey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => Change(),
       builder: (context, child) {
-        return   MaterialApp(
+        return MaterialApp(
           key: navigatorkey,
-          home: Welcomescreen(),
+          home:const Welcomescreen(),
           debugShowCheckedModeBanner: false,
         );
       },
     );
   }
 }
-
-
-
 class Change extends ChangeNotifier {
 //  List<QueryDocumentSnapshot>
   List data = [];
@@ -55,7 +54,7 @@ class Change extends ChangeNotifier {
   bool secure = false;
   bool dark = false;
   final auth = FirebaseAuth.instance;
-  //----------------------------------------
+   
 
   // ---------------------------------------
   void changesecure() {
@@ -72,31 +71,7 @@ class Change extends ChangeNotifier {
   }
 
 //-----------------------------------------
-
-  // Future<void> signinwithemailandpassword(
-  //     TextEditingController email,
-  //     TextEditingController password,
-  //     BuildContext context,
-  //     Widget Function() page,
-  //     String string,
-  //     String actiontext1,
-  //     String actiontext2,
-  //     Function() fun1,
-  //     Function() fun2) async {
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email.text,
-  //       password: password.text,
-  //     );
-  //     if (FirebaseAuth.instance.currentUser != null &&
-  //         FirebaseAuth.instance.currentUser!.emailVerified) {
-  //       navigate(context, page);
-  //     }
-  //   } on FirebaseException catch (e) {
-  //     print(e);
-  //     alert(context, e, actiontext1, actiontext2, fun1, fun2);
-  //   }
-  // }
+ 
   Future<void> signinwithemailandpassword(
       TextEditingController email,
       TextEditingController password,

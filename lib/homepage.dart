@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:chat/chatscreen.dart';
-import 'package:chat/firebasenotification.dart';
+import 'package:chat/market.dart';
 
 import 'package:chat/main.dart';
 import 'package:chat/signin.dart';
@@ -26,7 +26,34 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  Future<bool> onwillpop() async {
+  
+
+  void gettoken() async {
+    var token = FirebaseMessaging.instance.getToken();
+  }
+
+  void getpermision() async {
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    var forgroundmessage =
+        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      Provider.of<Change>(context)
+          .alert(context, message.notification!.body, "", "ok", () {}, () {
+        Navigator.of(context).pop();
+      });
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      Provider.of<Change>(context).navigate(context, () => Chatscreen());
+    });
+  }
+Future<bool> onwillpop() async {
     return await showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -49,43 +76,10 @@ class _HomepageState extends State<Homepage> {
               ],
             ));
   }
-
-  void gettoken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    print("-----------------------$token----------------------------");
-  }
-
-  void permision() async {
-    NotificationSettings settings = await FirebaseMessaging.instance
-        .requestPermission(
-            alert: true,
-            announcement: false,
-            badge: true,
-            carPlay: false,
-            criticalAlert: false,
-            provisional: false,
-            sound: true);
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print(
-          '--------------------------------------------user granted permision');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      print("-------------------------user provistional");
-    } else {
-      print('--------------------------has not accepted permission');
-    }
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print(
-          'message => ${message.notification!.title} & body =>${message.notification!.body}');
-    });
-  }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    permision();
+    getpermision();
     gettoken();
   }
 
@@ -96,8 +90,7 @@ class _HomepageState extends State<Homepage> {
     return DefaultTabController(
       length: 3, //2,
       // ignore: deprecated_member_use
-      child: WillPopScope(
-        onWillPop: onwillpop,
+      child: WillPopScope(onWillPop: onwillpop,
         child: Consumer<Change>(
           builder: (context, provider, child) {
             return Scaffold(

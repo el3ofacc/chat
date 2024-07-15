@@ -89,11 +89,13 @@ class _ChatscreenState extends State<Chatscreen> {
                                 });
                               },
                               child: Container(
-                                child: Mytext(
-                                    text: message['text'],
-                                    size: size.height / 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
+                                child: Card(color: Colors.blue,
+                                  child: Mytext(
+                                      text: message['text'],
+                                      size: size.height / 30,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
                               ),
                             ),
                           );
